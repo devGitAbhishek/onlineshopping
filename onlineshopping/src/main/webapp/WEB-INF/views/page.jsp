@@ -22,7 +22,8 @@
 <meta name="author" content="">
 
 <script>
-	window.menu = '${title}'; //setting variable menu to solve active menu problem
+window.menu = '${title}'; //setting variable menu to solve active menu problem
+window.contextRoot = '${contextRoot}';
 </script>
 
 <title>Online Shopping Fun! - ${title}</title>
@@ -35,6 +36,9 @@
 
 <!-- Custom Theme included here -->
 <link href="${css}/bootstrap-readable-theme.css" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link href="${css}/dataTables.bootstrap.css" rel="stylesheet">
 
 
 </head>
@@ -66,10 +70,26 @@
 			<!-- Page Content of contact comes here -->
 
 			<!-- Page  Content of products comes here -->
-			<c:if test="${userClickProducts eq true || userClickCategoryProducts eq true}">
+			<c:if
+				test="${userClickProducts eq true || userClickCategoryProducts eq true}">
 				<%@include file="listProducts.jsp"%>
 			</c:if>
 			<!-- Page Content of products comes here -->
+
+			<!-- singleProduct view comes here -->
+			<c:if test="${userViewProduct eq true}">
+				<%@include file="singleProduct.jsp"%>
+			</c:if>
+			<!-- singleProduct view comes here  -->
+
+			<!-- singleProduct view comes here -->
+			<c:if test="${userClickManageProducts eq true}">
+				<%@include file="productManage.jsp"%>
+			</c:if>
+			<!-- singleProduct view comes here  -->
+
+
+
 		</div>
 		<!-- Footer comes here-->
 		<%@ include file="./shared/footer.jsp"%>
@@ -81,8 +101,17 @@
 		<!-- Bootstrap Core JavaScript -->
 		<script src="${js}/bootstrap.min.js"></script>
 
+		<!-- DATATABLES PLUGINS-->
+		<script src="${js}/jquery.dataTables.js"></script>
+
+		<!-- DATATABLES PLUGINS-->
+		<script src="${js}/dataTables.bootstrap.js"></script>
+
 		<!-- Linking my own app.js-- custom javascript for my project -->
 		<script src="${js}/myapp.js"></script>
+		
+		<!-- Linking my bootbox-->
+		<script src="${js}/bootbox.min.js"></script>
 
 	</div>
 

@@ -1,19 +1,29 @@
 package net.abhi.onlineshopping.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import net.abhi.onlineshopping.exception.ProductNotFindException;
 import net.abhi.shoppingbackend.dao.CategoryDAO;
+import net.abhi.shoppingbackend.dao.ProductDAO;
 import net.abhi.shoppingbackend.dto.Category;
+import net.abhi.shoppingbackend.dto.Product;
 
 @Controller
 public class PageController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(PageController.class);
 
 	@Autowired
 	private CategoryDAO cat;
+	
+	@Autowired
+	private ProductDAO productDAO;
 
 	// INFO 1 : For test purpose to check if @RequestParam and @PathVariable are
 	// working in project module --> Verified.
@@ -95,7 +105,29 @@ public class PageController {
 		mv.addObject("categories", cat.list());
 		// Passing category object
 		mv.addObject("category", category);
+		mv.addObject("categoryId", category.getId());
 		mv.addObject("userClickCategoryProducts", true);
+		return mv;
+	}
+	
+
+   /**
+    * 
+    * View single product
+    * 
+    */
+	@RequestMapping(value = "/show/{id}/product") 
+	public ModelAndView showSingleProduct(@PathVariable("id") int id) throws ProductNotFindException{
+		ModelAndView mv = new ModelAndView("page");
+
+		// productDAO to fetch single category
+		Product product = null;
+		product = productDAO.get(id);
+		if(product == null) throw new ProductNotFindException();
+		// Passing category title
+		mv.addObject("title", product.getName());
+		mv.addObject("product", product);
+		mv.addObject("userViewProduct", true);
 		return mv;
 	}
 
